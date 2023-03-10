@@ -1,0 +1,53 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer components {
+    .row-center {
+        @apply flex flex-row items-center justify-center;
+    }
+    .col-center {
+        @apply flex flex-col items-center justify-center;
+    }
+    .bg-base {
+        @apply bg-zinc-100 dark:bg-zinc-900;
+    }
+    .bg-body {
+        @apply bg-white dark:bg-zinc-900;
+    }
+
+    .bg-overlay {
+        @apply bg-white dark:bg-zinc-800;
+    }
+    .bg-overlay-2 {
+        @apply bg-zinc-100 dark:bg-zinc-700;
+    }
+
+    .text-main {
+        @apply text-zinc-700 dark:text-white;
+    }
+
+    .text-secondary {
+        @apply text-zinc-500 dark:text-zinc-400;
+    }
+
+    .text-tertiary {
+        @apply text-zinc-400 dark:text-zinc-600;
+    }
+
+    .text-disabled {
+        @apply text-zinc-300 dark:text-zinc-700;
+    }
+
+    .card {
+        @apply bg-overlay rounded-xl shadow-xl p-4;
+    }
+}
