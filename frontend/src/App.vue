@@ -105,11 +105,22 @@ async function reset() {
   <div class="col-start w-full text-main select-none">
     <div class="w-full border-b-[1px] border-gray-200 p-4 row-center gap-4">
       <h1 class="text-xl text-main font-bold">🐈 &nbsp M-CAT 可用性测试终端</h1>
-      <p v-if="monitorState.subject_id != 0">实验编号 {{ monitorState.subject_id }}</p>
+      <p
+        v-if="monitorState.subject_id != 0"
+        class="font-meidum font-medium text-yellow-800 font-mono"
+      >
+        实验编号 {{ monitorState.subject_id }}
+      </p>
       <button v-if="monitorState.subject_id != 0" class="line-button" @click="reset">
         重置
       </button>
-      <button v-else @click="reset" class="line-button">请输入实验编号</button>
+      <button
+        v-else
+        @click="reset"
+        class="bg-yellow-400 py-2 px-4 font-medium rounded-full"
+      >
+        请输入实验编号
+      </button>
       <div class="flex-1"></div>
       <NetCat />
     </div>
@@ -122,21 +133,13 @@ async function reset() {
       <h2 class="text-4xl font-medium">请选择一个任务集开始测试</h2>
 
       <div class="row-center gap-12">
-        <button @click="start(0, 0)" class="big-button hover:bg-yellow-400">
-          🍎 macOS@WIMP
-        </button>
-        <button @click="start(0, 1)" class="big-button hover:bg-yellow-400">
-          🎨 Figma@WIMP
-        </button>
+        <button @click="start(0, 0)" class="big-button">🍎 macOS@WIMP</button>
+        <button @click="start(0, 1)" class="big-button">🎨 Figma@WIMP</button>
       </div>
 
       <div class="row-center gap-12">
-        <button @click="start(1, 0)" class="big-button hover:bg-yellow-400">
-          🍎 macOS@M-CAT
-        </button>
-        <button @click="start(1, 1)" class="big-button hover:bg-yellow-400">
-          🎨 Figma@M-CAT
-        </button>
+        <button @click="start(1, 0)" class="big-button">🍎 macOS@M-CAT</button>
+        <button @click="start(1, 1)" class="big-button">🎨 Figma@M-CAT</button>
       </div>
     </div>
 
@@ -176,7 +179,7 @@ async function reset() {
 
 <style lang="css">
 .big-button {
-  @apply border-gray-200 hover:border-transparent transition-all border-[1px] p-8  text-xl font-medium rounded-full w-[240px];
+  @apply border-gray-200  transition-all border-[1px] p-8  text-xl font-medium rounded-full w-[240px];
 }
 
 .line-button {
