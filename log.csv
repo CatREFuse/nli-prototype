@@ -1,1 +1,2 @@
-subject_id, task_class, task_index, mouse_distance, mouse_click, keyboard_press, success, start_time, end_time, duration
+subject_id, task_round, task_class, task_index, mouse_distance, mouse_click, keyboard_press, success, start_time, end_time, duration
+

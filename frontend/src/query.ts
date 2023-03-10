@@ -9,10 +9,13 @@ if (import.meta.env.DEV) {
 export default {
     reset: () => axios.get('/reset'),
     getState: () => axios.get('/state'),
-    setSubjectID: (id: number)=>axios.post(`/set-subject-id/${id}`),
-    start: (taskClassID: number) => axios.get(`/start/${taskClassID}`),
-    beginTask: axios.get('/begin-task'),
+    setSubjectID: (id: number) => axios.post(`/set-subject-id/${id}`),
+    start: (taskRound: number, taskClass: number) =>
+        axios.get(`/start/${taskRound}/${taskClass}`),
+    beginTask: () => axios.get('/begin-task'),
     next: () => axios.get('/next'),
     connect: () => axios.get('/'),
     axios,
+    getMacOSSet: () => axios.get('/static/os_test_list.json'),
+    getFigmaSet: () => axios.get('/static/figma_test_list.json'),
 };

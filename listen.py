@@ -14,6 +14,7 @@ class KeyLogger:
         self.mouse_click = 0
         self.mouse_position = [0, 0]
         self.mouse_distance = 0
+        print("keylogger 初始化完成")
 
     def begin(self):
 
@@ -39,8 +40,13 @@ class KeyLogger:
             self.mouse_distance += math.sqrt(
                 (x - self.mouse_position[0]) ** 2 + (y - self.mouse_position[1]) ** 2)
             self.mouse_position = [x, y]
-            # print('mouse distance: ', self.mouse_distance)
+
 
         with keyboard.Listener(on_press=on_press, on_release=on_release) as listener1, mouse.Listener(on_click=on_click, on_scroll=on_scroll, on_move=on_move) as listener2:
             listener1.join()
             listener2.join()
+
+
+if __name__ == "__main__":
+    key_logger = KeyLogger()
+    key_logger.begin()

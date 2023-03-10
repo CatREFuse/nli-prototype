@@ -1,12 +1,19 @@
 <script setup lang="ts">
 import query from "../query";
 import { ref, onMounted } from "vue";
+import axios from "axios";
 
 type NetState = "connecting" | "connected" | "disconnected";
 
 let netState = ref("disconnected" as NetState);
 
+let url = ref("");
 onMounted(() => {
+  // 获取当前地址栏地址
+  url.value = window.location.origin;
+  // 去除端口号
+  url.value = url.value.replace(/:\d+/, "");
+  query.axios.defaults.baseURL = url.value + ":8848";
   connect();
 });
 
@@ -33,7 +40,20 @@ function setBaseURL() {
 
 <template>
   <div class="row-center gap-2 transition-colors">
-    <div class="row-center gap-1">
+    <!-- {{ url }} -->
+    <div
+      class="row-center gap-1 line-button"
+      :class="
+        netState === 'connecting'
+          ? 'animate-pulse border-yellow-400'
+          : netState === 'connected'
+          ? 'border-green-600'
+          : netState === 'disconnected'
+          ? 'border-red-500'
+          : ''
+      "
+      @click="setBaseURL"
+    >
       <div
         class="w-[6px] h-[6px] rounded-full bg-green-600"
         :class="
@@ -47,7 +67,7 @@ function setBaseURL() {
         "
       ></div>
       <div
-        class="text-green-600 text-sm"
+        class="text-green-600 text-sm font-medium"
         :class="
           netState === 'connecting'
             ? 'animate-pulse text-yellow-500'
@@ -69,12 +89,6 @@ function setBaseURL() {
         }}
       </div>
     </div>
-    <button
-      class="text-tertiary hover:text-secondary border-gray-200 hover:border-gray-300 border-[1px] p-1 px-3 rounded-full row-center gap-2 outline-none"
-      @click="setBaseURL"
-    >
-      <div>配置网络</div>
-    </button>
   </div>
 </template>
 

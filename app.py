@@ -25,70 +25,89 @@ state = AppState()
 
 @app.route('/')
 def index():
-    return f'被试 ID: {state.subject_id}, 实验序号: {state.task_index}, 距离: {key_logger.mouse_distance}, 点击: {key_logger.mouse_click}, 按键: {key_logger.keyboard_press}'
+    return 'M-CAT'
 
 
-@app.route('/api/reset')
+@app.route('/reset')
 def reset():
     state.reset()
-    key_logger.reset()
+    return "ok"
 
 
-@app.route('/api/state')
+@app.route('/set-subject-id/<int:subject_id>', methods=["POST", "OPTION"])
+def set_subject_id(subject_id):
+    state.reset()
+    state.subject_id = subject_id
+    return "ok"
+
+
+@app.route('/state')
 def get_state():
     state_dict = {
         "subject_id": state.subject_id,
-        "task_index": state.task_index,
+        "state": state.state,
+        "task_round": state.task_round,
         "task_class": state.task_class,
+        "task_index": state.task_index,
         "mouse_distance": key_logger.mouse_distance,
         "mouse_click": key_logger.mouse_click,
         "keyborad_press": key_logger.keyboard_press,
         "start_time": state.start_time,
+        "data_buffer": state.data_buffer
     }
+    print(state_dict)
     return json.dumps(state_dict)
 
 
-@app.route("/api/start/int:task_class")
-def start(task_class: int):
-    key_logger.reset()
-    state.task_index = 1
+@app.route("/start/<int:task_round>/<int:task_class>")
+def start(task_round: int, task_class: int):
+    state.task_index = 0
+    state.state = 1
+    state.task_round = task_round
     state.task_class = task_class
     state.start_time = time.time()
-    return 200
+    return "ok"
 
 
-@app.route("/api/next")
+@app.route("/begin-task")
+def begin_task():
+    state.state = 2
+    key_logger.reset()
+    state.start_time = time.time()
+    return "ok"
+
+
+@app.route("/next")
 def next():
     # 记录数据
     end_time = time.time()
-    append_log(state.subject_id, state.task_class, state.task_index, key_logger.mouse_distance,
-               key_logger.mouse_click, key_logger.keyboard_press, 1, state.start_time, end_time)
 
-    # 状态更改: index + 1; 结束实验; 清除按键
-    key_logger.reset()
-    state.start_time = time.time()
-    if state.task_index == 6:
-        reset()
+    state.data_buffer.append([state.subject_id, state.task_round, state.task_class, state.task_index, key_logger.mouse_distance,
+                              key_logger.mouse_click, key_logger.keyboard_press, 1, state.start_time, end_time])
+
+    if state.task_index == 5:
+        for item in state.data_buffer:
+            item = [i for i in item]
+            append_log(*item)
+
+        if state.task_round == 1 and state.task_class == 1:
+            reset()
+        else:
+            id = state.subject_id
+            reset()
+            state.subject_id = id
+
         return "end"
     else:
         state.task_index += 1
+        state.state = 1
+        return "next"
 
 
-@app.route("/api/repeat")
-def repeat():
-    # 记录数据
-    end_time = time.time()
-    append_log(state.subject_id, state.task_class, state.task_index, key_logger.mouse_distance,
-               key_logger.mouse_click, key_logger.keyboard_press, 0, state.start_time, end_time)
-    key_logger.reset()
-    state.start_time = time.time()
-    return 200
-
-
-def append_log(subject_id, task_class, task_index, mouse_distance, mouse_click, keyboard_press, success, start_time, end_time):
+def append_log(subject_id, task_round, task_class, task_index, mouse_distance, mouse_click, keyboard_press, success, start_time, end_time):
     duration = end_time - start_time
     with open("log.csv", "a") as log:
-        log.write("{0},{1},{2},{3},{4},{5},{6},{7},{8},{9},{10}\n".format(subject_id, task_class,
+        log.write("{0},{1},{2},{3},{4},{5},{6},{7},{8},{9},{10}\n".format(subject_id, task_round, task_class,
                   task_index, mouse_distance, mouse_click, keyboard_press, success, start_time, end_time, duration))
     return "append success"
 
