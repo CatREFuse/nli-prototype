@@ -53,7 +53,8 @@ def get_state():
         "mouse_click": key_logger.mouse_click,
         "keyborad_press": key_logger.keyboard_press,
         "start_time": state.start_time,
-        "data_buffer": state.data_buffer
+        "data_buffer": state.data_buffer,
+        "prompt": state.prompt
     }
     print(state_dict)
     return json.dumps(state_dict)
@@ -65,12 +66,20 @@ def start(task_round: int, task_class: int):
     state.state = 1
     state.task_round = task_round
     state.task_class = task_class
-    state.start_time = time.time()
+    state.start_time = round(time.time(), 3)
+    return "ok"
+
+
+@app.route("/prompt/<string:prompt>")
+def set_prompt(prompt):
+    state.prompt = prompt
+    print(f"get prompt: {prompt} ")
     return "ok"
 
 
 @app.route("/begin-task")
 def begin_task():
+    state.prompt = ""
     state.state = 2
     key_logger.reset()
     state.start_time = time.time()
@@ -80,10 +89,10 @@ def begin_task():
 @app.route("/next")
 def next():
     # 记录数据
-    end_time = time.time()
+    end_time = round(time.time(), 3)
 
     state.data_buffer.append([state.subject_id, state.task_round, state.task_class, state.task_index, key_logger.mouse_distance,
-                              key_logger.mouse_click, key_logger.keyboard_press, 1, state.start_time, end_time])
+                              key_logger.mouse_click, key_logger.keyboard_press, 1, state.start_time, end_time, state.prompt])
 
     if state.task_index == 5:
         for item in state.data_buffer:
@@ -104,11 +113,11 @@ def next():
         return "next"
 
 
-def append_log(subject_id, task_round, task_class, task_index, mouse_distance, mouse_click, keyboard_press, success, start_time, end_time):
+def append_log(subject_id, task_round, task_class, task_index, mouse_distance, mouse_click, keyboard_press, success, start_time, end_time, prompt):
     duration = end_time - start_time
     with open("log.csv", "a") as log:
-        log.write("{0},{1},{2},{3},{4},{5},{6},{7},{8},{9},{10}\n".format(subject_id, task_round, task_class,
-                  task_index, mouse_distance, mouse_click, keyboard_press, success, start_time, end_time, duration))
+        log.write("{0},{1},{2},{3},{4},{5},{6},{7},{8},{9},{10},{11}\n".format(subject_id, task_round, task_class,
+                  task_index, mouse_distance, mouse_click, keyboard_press, success, start_time, end_time, duration, prompt))
     return "append success"
 
 

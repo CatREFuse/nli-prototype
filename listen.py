@@ -39,8 +39,8 @@ class KeyLogger:
             # print('Mouse moved to ({0}, {1})'.format(x, y))
             self.mouse_distance += math.sqrt(
                 (x - self.mouse_position[0]) ** 2 + (y - self.mouse_position[1]) ** 2)
+            self.mouse_distance = int(self.mouse_distance)
             self.mouse_position = [x, y]
-
 
         with keyboard.Listener(on_press=on_press, on_release=on_release) as listener1, mouse.Listener(on_click=on_click, on_scroll=on_scroll, on_move=on_move) as listener2:
             listener1.join()
