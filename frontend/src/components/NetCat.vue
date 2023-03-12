@@ -33,7 +33,7 @@ function connect() {
 
 function setBaseURL() {
   query.axios.defaults.baseURL =
-    prompt("请输入数据端链接", query.axios.defaults.baseURL) ?? "";
+    prompt("请输入数据端链接（刷新自动获取）", query.axios.defaults.baseURL) ?? "";
   connect();
 }
 </script>

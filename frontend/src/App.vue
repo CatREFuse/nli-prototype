@@ -69,8 +69,9 @@ async function updateState() {
 
 async function start(taskRound: number, taskClass: number) {
   if (monitorState.value.subject_id == 0) {
-    alert("请输入实验编号");
-    return;
+    // alert("试验编号未设置");
+    reset()
+    // return;
   }
   await query.start(taskRound, taskClass);
   updateState();
@@ -95,7 +96,7 @@ async function next() {
 
 async function reset() {
   await query.reset();
-  let subjectID = prompt("请输入被试编号", "0") ?? "0";
+  let subjectID = prompt("请输入被试编号（0 代表无被试）", "0") ?? "0";
   await query.setSubjectID(parseInt(subjectID));
   updateState();
 }
