@@ -13,6 +13,7 @@ export default {
     start: (taskRound: number, taskClass: number) =>
         axios.get(`/start/${taskRound}/${taskClass}`),
     beginTask: () => axios.get('/begin-task'),
+    repeat: () => axios.get('/repeat'),
     next: () => axios.get('/next'),
     connect: () => axios.get('/'),
     axios,

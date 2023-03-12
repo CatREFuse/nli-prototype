@@ -70,7 +70,7 @@ async function updateState() {
 async function start(taskRound: number, taskClass: number) {
   if (monitorState.value.subject_id == 0) {
     // alert("试验编号未设置");
-    reset()
+    reset();
     // return;
   }
   await query.start(taskRound, taskClass);
@@ -98,6 +98,12 @@ async function reset() {
   await query.reset();
   let subjectID = prompt("请输入被试编号（0 代表无被试）", "0") ?? "0";
   await query.setSubjectID(parseInt(subjectID));
+  updateState();
+}
+
+async function repeat() {
+  alert("请让实验人员归位实验材料，准备好重新点击开始");
+  await query.repeat();
   updateState();
 }
 </script>
@@ -150,7 +156,7 @@ async function reset() {
       <p class="text-2xl text-main w-[50%] h-[72px]">
         {{ taskList[monitorState.task_index] }}
       </p>
-      <button class="opt-button bg-yellow-400" @click="beginTask">开始操作</button>
+      <button class="opt-button bg-yellow-400 h-16" @click="beginTask">开始操作</button>
     </div>
 
     <!-- in-task -->
@@ -159,8 +165,13 @@ async function reset() {
       <p class="text-2xl text-gray-400 w-[50%] h-[72px]">
         {{ taskList[monitorState.task_index] }}
       </p>
-      <button class="opt-button bg-blue-500 text-white" @click="next">
+
+      <button class="opt-button bg-blue-500 text-white h-16" @click="next">
         完成任务，进行下一个
+      </button>
+
+      <button class="opt-button border-[1px] border-gray-300 mt-24" @click="repeat">
+        重置当前任务
       </button>
     </div>
 

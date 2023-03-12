@@ -85,6 +85,15 @@ def begin_task():
     state.start_time = round(time.time(), 3)
     return "ok"
 
+@app.route("/repeat")
+def repeat():
+    # 记录数据
+    end_time = round(time.time(), 3)
+    state.data_buffer.append([state.subject_id, state.task_round, state.task_class, state.task_index, key_logger.mouse_distance,
+                              key_logger.mouse_click, key_logger.keyboard_press, 0, state.start_time, end_time, state.prompt])
+    state.state = 1
+    return "ok"
+
 
 @app.route("/next")
 def next():
