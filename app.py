@@ -82,7 +82,7 @@ def begin_task():
     state.prompt = ""
     state.state = 2
     key_logger.reset()
-    state.start_time = time.time()
+    state.start_time = round(time.time(), 3)
     return "ok"
 
 

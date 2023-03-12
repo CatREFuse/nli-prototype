@@ -11,7 +11,7 @@ class AppState:
         self.task_round = 0  # 0: WIMP轮  1: M-CAT轮
         self.task_class = 0  # 0: macOS任务集  1:Figma任务集
         self.task_index = 0  # 任务 index, 0 代表没开始
-        self.start_time = time.time()
+        self.start_time = round(time.time(), 3)
         self.prompt = ""
         self.data_buffer = []
 
