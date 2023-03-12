@@ -5,6 +5,7 @@ import json
 from listen import KeyLogger
 from appState import AppState
 import threading
+from pprint import pprint
 
 app = Flask(__name__)
 
@@ -56,7 +57,7 @@ def get_state():
         "data_buffer": state.data_buffer,
         "prompt": state.prompt
     }
-    print(state_dict)
+    pprint(state_dict)
     return json.dumps(state_dict)
 
 
