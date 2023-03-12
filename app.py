@@ -114,7 +114,7 @@ def next():
 
 
 def append_log(subject_id, task_round, task_class, task_index, mouse_distance, mouse_click, keyboard_press, success, start_time, end_time, prompt):
-    duration = end_time - start_time
+    duration = round(end_time - start_time, 3)
     with open("log.csv", "a") as log:
         log.write("{0},{1},{2},{3},{4},{5},{6},{7},{8},{9},{10},{11}\n".format(subject_id, task_round, task_class,
                   task_index, mouse_distance, mouse_click, keyboard_press, success, start_time, end_time, duration, prompt))
