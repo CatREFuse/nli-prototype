@@ -1,4 +1,5 @@
-subject_id, task_round, task_class, task_index, mouse_distance, mouse_click, keyboard_press, success, start_time, end_time, duration, prompt9,0,0,0,6282,30,28,1,1678630543.78,1678630616.015,72.235,
+subject_id, task_round, task_class, task_index, mouse_distance, mouse_click, keyboard_press, success, start_time, end_time, duration, prompt
+9,0,0,0,6282,30,28,1,1678630543.78,1678630616.015,72.235,
 9,0,0,1,9917,18,48,1,1678630674.883,1678630737.64,62.757,
 9,0,0,2,4208,13,1,1,1678630785.045,1678630821.395,36.35,
 9,0,0,3,9320,8,0,1,1678630854.373,1678630887.9,33.527,
